@@ -1,4 +1,6 @@
 
+'use client';
+
 import React from 'react';
 
 type Page = 'home' | 'about' | 'portfolio' | 'tiers' | 'blog';
@@ -9,7 +11,7 @@ interface NavbarProps {
   onSignIn: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate, onSignIn }) => {
+export default function Navbar({ currentPage, onNavigate, onSignIn }: NavbarProps) {
   const links: { label: string; id: Page }[] = [
     { label: 'Home', id: 'home' },
     { label: 'About Us', id: 'about' },
@@ -35,7 +37,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate, onSignIn }) =>
           >
             {link.label}
             {currentPage === link.id && (
-              <span className="absolute bottom-0 left-0 w-full h-px bg-gold animate-fade-in" />
+              <span className="absolute bottom-0 left-0 w-full h-px bg-gold" />
             )}
           </button>
         ))}
@@ -49,6 +51,4 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate, onSignIn }) =>
       </button>
     </nav>
   );
-};
-
-export default Navbar;
+}
