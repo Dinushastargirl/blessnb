@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import HowItWorks from '@/components/HowItWorks';
@@ -13,10 +13,20 @@ import AuthModal from '@/components/modals/AuthModal';
 import SampleModal from '@/components/modals/SampleModal';
 import CheckoutModal from '@/components/modals/CheckoutModal';
 import { PricingTier } from '@/types';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
   const [activeModal, setActiveModal] = useState<'auth' | 'sample' | 'checkout' | null>(null);
   const [selectedTier, setSelectedTier] = useState<PricingTier | null>(null);
+  const router = useRouter();
+
+  // Prevent hydration errors
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   const openCheckout = (tier: PricingTier) => {
     setSelectedTier(tier);
@@ -29,15 +39,24 @@ export default function Home() {
   };
 
   const handleNavigate = (page: string) => {
-    if (page === 'tiers') {
-      const el = document.getElementById('pricing-link-dummy');
-      window.location.href = '/tiers';
-    } else if (page === 'about') {
-      window.location.href = '/about';
-    } else if (page === 'portfolio') {
-      window.location.href = '/portfolio';
-    } else if (page === 'blog') {
-      window.location.href = '/blog';
+    switch (page) {
+      case 'tiers':
+        router.push('/tiers');
+        break;
+      case 'about':
+        router.push('/about');
+        break;
+      case 'portfolio':
+        router.push('/portfolio');
+        break;
+      case 'blog':
+        router.push('/blog');
+        break;
+      case 'home':
+        router.push('/');
+        break;
+      default:
+        break;
     }
   };
 
@@ -51,7 +70,7 @@ export default function Home() {
       
       <main>
         <Hero 
-          onCreateStory={() => window.location.href = '/tiers'} 
+          onCreateStory={() => router.push('/tiers')} 
           onViewSample={() => setActiveModal('sample')}
         />
         
@@ -65,7 +84,7 @@ export default function Home() {
               Forget fading paper and cluttered drawers. We curate your most precious moments into a timeless digital sanctuary.
             </p>
             <button 
-              onClick={() => window.location.href = '/about'}
+              onClick={() => router.push('/about')}
               className="text-sm font-bold tracking-widest uppercase text-gold hover:text-deepSea transition-colors"
             >
               Learn Our Why —
@@ -84,7 +103,7 @@ export default function Home() {
               <span className="italic">they can't lose?</span>
             </h2>
             <button 
-              onClick={() => window.location.href = '/tiers'}
+              onClick={() => router.push('/tiers')}
               className="bg-deepSea text-cream px-12 py-5 rounded-full text-lg font-medium hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-xl"
             >
               Gift Their Story Today →
@@ -94,7 +113,7 @@ export default function Home() {
       </main>
 
       <Footer onNavigate={handleNavigate} />
-      <StickyCTA onClick={() => window.location.href = '/tiers'} />
+      <StickyCTA onClick={() => router.push('/tiers')} />
 
       {activeModal === 'auth' && <AuthModal onClose={closeModals} />}
       {activeModal === 'sample' && <SampleModal onClose={closeModals} />}

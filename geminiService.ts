@@ -1,7 +1,7 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 
-// Fix: Initializing GoogleGenAI strictly following the guideline: const ai = new GoogleGenAI({apiKey: process.env.API_KEY});
+// Initialize the GoogleGenAI client using the direct process.env.API_KEY as per guidelines
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const generateGiftStoryTheme = async (interests: string) => {
@@ -14,15 +14,26 @@ export const generateGiftStoryTheme = async (interests: string) => {
       responseSchema: {
         type: Type.OBJECT,
         properties: {
-          themeTitle: { type: Type.STRING },
-          pitch: { type: Type.STRING },
+          themeTitle: {
+            type: Type.STRING,
+            description: 'The creative title for the gift story theme.',
+          },
+          pitch: {
+            type: Type.STRING,
+            description: 'A 2-sentence emotional pitch for the theme.',
+          },
         },
-        required: ["themeTitle", "pitch"]
-      }
-    }
+        required: ["themeTitle", "pitch"],
+      },
+    },
   });
 
-  // Fix: Access response.text as a property and handle potential undefined before parsing
+  // Use the .text property directly (not as a function) as it is a getter
   const jsonStr = response.text?.trim() || '{}';
-  return JSON.parse(jsonStr);
+  try {
+    return JSON.parse(jsonStr);
+  } catch (e) {
+    console.error("Failed to parse JSON response:", jsonStr);
+    return { themeTitle: "A Timeless Journey", pitch: "A beautiful celebration of memories and love designed just for them." };
+  }
 };
