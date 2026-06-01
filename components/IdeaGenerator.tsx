@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import { Sparkles, Loader2 } from 'lucide-react';
-import { generateGiftStoryTheme } from '../geminiService';
 
 const IdeaGenerator: React.FC = () => {
   const [input, setInput] = useState('');
@@ -12,10 +11,23 @@ const IdeaGenerator: React.FC = () => {
     if (!input.trim()) return;
     setLoading(true);
     try {
-      const result = await generateGiftStoryTheme(input);
-      setSuggestion(result);
+      const response = await fetch('/api/generate-theme', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ interests: input })
+      });
+      if (response.ok) {
+        const result = await response.json();
+        setSuggestion(result);
+      } else {
+        throw new Error('Failed to generate theme');
+      }
     } catch (error) {
       console.error(error);
+      setSuggestion({
+        themeTitle: "A Timeless Journey",
+        pitch: "A beautiful celebration of memories and love designed just for them."
+      });
     } finally {
       setLoading(false);
     }
