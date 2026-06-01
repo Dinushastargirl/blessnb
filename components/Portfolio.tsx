@@ -26,6 +26,12 @@ const projects = [
     url: "https://cosmic-lamington-0afa4b.netlify.app/",
     image: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=800",
     theme: "Futuristic"
+  },
+  {
+    title: "Warm Elegance",
+    url: "https://gift-christy.vercel.app/",
+    image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=800",
+    theme: "Chic & Warm"
   }
 ];
 
