@@ -2,17 +2,17 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Navbar from '@/components/Navbar';
-import Hero from '@/components/Hero';
-import HowItWorks from '@/components/HowItWorks';
-import Gallery from '@/components/Gallery';
-import IdeaGenerator from '@/components/IdeaGenerator';
-import Footer from '@/components/Footer';
-import StickyCTA from '@/components/StickyCTA';
-import AuthModal from '@/components/modals/AuthModal';
-import SampleModal from '@/components/modals/SampleModal';
-import CheckoutModal from '@/components/modals/CheckoutModal';
-import { PricingTier } from '@/types';
+import Navbar from '../components/Navbar';
+import Hero from '../components/Hero';
+import HowItWorks from '../components/HowItWorks';
+import Gallery from '../components/Gallery';
+import IdeaGenerator from '../components/IdeaGenerator';
+import Footer from '../components/Footer';
+import StickyCTA from '../components/StickyCTA';
+import AuthModal from '../components/modals/AuthModal';
+import SampleModal from '../components/modals/SampleModal';
+import CheckoutModal from '../components/modals/CheckoutModal';
+import { PricingTier } from '../types';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
